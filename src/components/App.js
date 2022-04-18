@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-
+import axios from 'axios';
+import Post from './Post/Post.js'
 import './App.css';
 
 import Header from './Header/Header';
 import Compose from './Compose/Compose';
-
+axios.defaults.baseURL = 'practiceapi.devmountain.com/api'
 class App extends Component {
   constructor() {
     super();
@@ -19,7 +20,15 @@ class App extends Component {
   }
   
   componentDidMount() {
+    console.log("Component Did Mount");
+    axios.get('https://practiceapi.devmountain.com/api/posts')
+    .then(res => {
+      const posts = res.data;
+      this.setState({posts})
+      console.log(posts);
+    })
 
+    
   }
 
   updatePost() {
@@ -44,6 +53,11 @@ class App extends Component {
         <section className="App__content">
 
           <Compose />
+          {posts.map((post) => {
+            return(
+              <Post key={post.id}/>
+            )
+          })}
           
         </section>
       </div>
